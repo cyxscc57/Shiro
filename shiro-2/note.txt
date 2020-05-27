@@ -1,0 +1,17 @@
+1.如何把一个字符串加密为MD5
+2.替换当前Realm的credentialsMatcher属性，直接使用HashCredentialsMatcher对象，并设置加密算法即可。
+
+密码的比对：
+通过AuthenticatingRealm的credentialsMatcher来进行密码的比对
+
+1、获取当前的Subject，调用SecurityUtils.getSubject();
+2、测试当前用户是否已经被认证，即是否已经登录，调用Subject的isAuthenticated()
+3、若没有认证，用户名和密码(从前端表单获取)会被封装到UsernamePasswordToken对象当中
+1）、创建一个表单
+2)、提交到SpringMVC的Handler
+3）、获取用户名密码
+4、执行登录：调用Subject的login(AuthenticationToken)方法。
+5、自定义Realm的方法，从数据库中获取对应的记录，返回给Shiro.
+1).实际上需要继承org.apache.shiro.realm.AuthorizingRealm
+    实现doGetAuthenticationInfo(AuthenticationToken)方法
+6、由shiro完成密码的比对

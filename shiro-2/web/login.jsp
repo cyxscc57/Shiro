@@ -11,6 +11,12 @@
     <title>Title</title>
 </head>
 <body>
-
+    <form action="shiro/login" method="post">
+        username:<input name="username"/>
+        <br>
+        password:<input name="password" type="password">
+        <br>
+        <input type="submit" value="登录">
+    </form>
 </body>
 </html>

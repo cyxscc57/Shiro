@@ -9,8 +9,9 @@
 <html>
 <head>
     <title>Title</title>
+    <h1>List</h1>
 </head>
 <body>
-
+<a href="shiro/logout">logout</a>
 </body>
 </html>

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+       >
+
+
 
     <!-- =========================================================
          Shiro Core Components - Not Spring Specific
@@ -51,12 +63,12 @@
     	3.1 直接配置实现了 org.apache.shiro.realm.Realm 接口的 bean
     -->
     <bean id="jdbcRealm" class="com.atguigu.shiro.realms.ShiroRealm">
-<!--    	<property name="credentialsMatcher">-->
-<!--    		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
-<!--    			<property name="hashAlgorithmName" value="MD5"></property>-->
-<!--    			<property name="hashIterations" value="1024"></property>-->
-<!--    		</bean>-->
-<!--    	</property>-->
+        <property name="credentialsMatcher" >
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"></property>
+                <property name="hashIterations" value="1024"></property>
+            </bean>
+        </property>
     </bean>
 
 <!--    <bean id="secondRealm" class="com.atguigu.shiro.realms.SecondRealm">-->
@@ -122,8 +134,9 @@
         <property name="filterChainDefinitions">
             <value>
                 /login.jsp = anon
-<!--                /shiro/login = anon-->
-<!--                /shiro/logout = logout-->
+                /shiro/login = anon
+                <!--shiro登录后会有缓存，所以要设置登出才行-->
+                /shiro/logout = logout
 
 <!--                /user.jsp = roles[user]-->
 <!--                /admin.jsp = roles[admin]-->
