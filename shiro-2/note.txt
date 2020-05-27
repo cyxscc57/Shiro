@@ -1,3 +1,11 @@
+1.为什么使用MD5盐值加密
+2.如何做到：
+   1).在doGetAuthenticationInfo创建对象时需要使用
+ SimpleAuthenticationInfo(Object principal, Object hashedCredentials, ByteSource credentialsSalt, String realmName) {
+   2).使用ByteSource.Util.bytes()来计算盐值
+   3).盐值需要唯一：一般使用随机字符串或者user id
+   4).使用SimpleHash(String algorithmName, Object source, Object salt, int hashIterations)计算盐值加密后的密码的值
+
 1.如何把一个字符串加密为MD5
 2.替换当前Realm的credentialsMatcher属性，直接使用HashCredentialsMatcher对象，并设置加密算法即可。
 
