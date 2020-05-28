@@ -1,3 +1,9 @@
+1.授权需要继承AuthorizingRealm类，并且实现doGetAuthorizationInfo 方法
+2.AuthorizingRealm 类继承自AuthenticatingRealm，但没有实现AuthenticatingRealm中的doGetAuthenticationInfo,
+所以认证和授权只需要继承AuthorizingRealm就可以了，同时实现他的两个抽象方法
+3.
+
+
 1.为什么使用MD5盐值加密
 2.如何做到：
    1).在doGetAuthenticationInfo创建对象时需要使用

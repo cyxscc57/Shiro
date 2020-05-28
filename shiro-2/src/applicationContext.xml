@@ -33,7 +33,7 @@
                 <ref bean="secondRealm"/>
             </list>
         </property>
-        <!--        <property name="rememberMeManager.cookie.maxAge" value="10"></property>-->
+        <property name="rememberMeManager.cookie.maxAge" value="10"></property>
     </bean>
 
     <!-- Let's use some enterprise caching support for better performance.  You can replace this with any enterprise
@@ -56,12 +56,6 @@
             <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>
         </property>
     </bean>
-    <!--    <bean id="authenticator"-->
-    <!--    	class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">-->
-    <!--    	<property name="authenticationStrategy">-->
-    <!--    		<bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>-->
-    <!--    	</property>-->
-    <!--    </bean>-->
 
     <!-- Used by the SecurityManager to access security data (users, roles, etc).
          Many other realm implementations can be used too (PropertiesRealm,
@@ -86,15 +80,6 @@
             </bean>
         </property>
     </bean>
-
-    <!--    <bean id="secondRealm" class="com.atguigu.shiro.realms.SecondRealm">-->
-    <!--    	<property name="credentialsMatcher">-->
-    <!--    		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
-    <!--    			<property name="hashAlgorithmName" value="SHA1"></property>-->
-    <!--    			<property name="hashIterations" value="1024"></property>-->
-    <!--    		</bean>-->
-    <!--    	</property>-->
-    <!--    </bean>-->
 
     <!-- =========================================================
          Shiro Spring-specific integration
@@ -135,9 +120,8 @@
         <property name="loginUrl" value="/login.jsp"/>
         <property name="successUrl" value="/list.jsp"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
-
-        <!--        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>-->
-
+<!--setFilterChainDefinitions方法中会将权限的设置到Map中-->
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>
         <!--
         	配置哪些页面需要受保护.
         	以及访问这些页面需要的权限.
@@ -145,24 +129,26 @@
         	2). authc 必须认证(即登录)后才可能访问的页面.
         	3). logout 登出.
         	4). roles 角色过滤器
+        	URL 权限采取第一次匹配优先的 方式，即从头开始
+            使用第一个匹配的 url 模式对应的拦截器链
         -->
 
-        <property name="filterChainDefinitions">
-            <value>
-                /login.jsp = anon
-                /shiro/login = anon
-                <!--shiro登录后会有缓存，所以要设置登出才行-->
-                /shiro/logout = logout
-
-                <!--                /user.jsp = roles[user]-->
-                <!--                /admin.jsp = roles[admin]-->
-
-                <!--                # everything else requires authentication:-->
-                /** = authc
-            </value>
-        </property>
+<!--        <property name="filterChainDefinitions">-->
+<!--            <value>-->
+<!--                /login.jsp = anon-->
+<!--                /shiro/login = anon-->
+<!--                /list.jsp = anon-->
+<!--                &lt;!&ndash;shiro登录后会有缓存，所以要设置登出才行&ndash;&gt;-->
+<!--                /shiro/logout = logout-->
+<!--                /user.jsp = roles[user]-->
+<!--                /admin.jsp = roles[admin]-->
+<!--                &lt;!&ndash;                # everything else requires authentication:&ndash;&gt;-->
+<!--                /** = authc-->
+<!--            </value>-->
+<!--        </property>-->
     </bean>
-
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder" factory-method="filterChainDefinitionBuilder"></bean>
+    <bean id="filterChainDefinitionMapBuilder" class="com.atguigu.shiro.factory.FilterChainDefinitionFactory"></bean>
     <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->
     <!--    <bean id="filterChainDefinitionMap" -->
     <!--    	factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"></bean>-->
@@ -172,5 +158,5 @@
     <!--    -->
     <!--    <bean id="shiroService"-->
     <!--    	class="com.atguigu.shiro.services.ShiroService"></bean>-->
-
+    <bean id="shiroService" class="com.atguigu.shiro.service.ShiroService"></bean>
 </beans>
